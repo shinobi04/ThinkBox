@@ -1,7 +1,7 @@
 import { auth } from "../lib/auth";
 import type { Request, Response, NextFunction } from "express";
 import { fromNodeHeaders } from "better-auth/node";
-
+import { AppError } from "../utils/AppError";
 type Session = typeof auth.$Infer.Session;
 
 declare global {
@@ -24,8 +24,7 @@ export const requireAuth = async (
     });
 
     if (!session) {
-      res.status(401).json({ error: "Unauthorized" });
-      return;
+      return next(new AppError("Unauthorized", 401));
     }
 
     req.user = session.user;
@@ -33,6 +32,6 @@ export const requireAuth = async (
     next();
   } catch (error) {
     console.error("Auth middleware error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(new AppError("Internal Server Error", 500));
   }
 };
