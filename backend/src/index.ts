@@ -9,6 +9,7 @@ import { requireAuth } from './middleware/auth';
 import { requestLogger } from './middleware/logger';
 import { errorHandler, notFoundHandler } from './middleware/error';
 import { sendSuccess } from './utils/response';
+import contentRouter from './modules/content/routes';
 
 app.use(express.json());
 app.use(requestLogger);
@@ -25,6 +26,7 @@ app.get('/api/protected', requireAuth, (req: Request, res: Response) => {
     session: req.session,
   }, 'This is a protected route');
 });
+app.use("/api", contentRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
