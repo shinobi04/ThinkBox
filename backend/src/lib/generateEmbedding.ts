@@ -5,13 +5,13 @@ const model = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
 
 export async function generateEmbedding(noteContent: string) {
   const result = await model.embedContent({
-    content: { 
-      role: "user", // 1. Added role to satisfy the 'Content' type
-      parts: [{ text: noteContent }] // 2. Use 'text' key inside parts
+    content: {
+      role: "user",
+      parts: [{ text: noteContent }],
     },
     outputDimensionality: 768,
-  }as any);
+  } as any);
   const vector = result.embedding.values;
-  const vectorString = `[${vector.join(',')}]`
+  const vectorString = `[${vector.join(",")}]`;
   return vectorString;
 }

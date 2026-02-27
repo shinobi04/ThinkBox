@@ -1,3 +1,11 @@
+/**
+ * Content Controller
+ *
+ * Handles HTTP requests related to notes, including creation, retrieval,
+ * and AI-powered vector search using embeddings. The search endpoint
+ * streams results directly to the client as plain text for real-time
+ * responses using OpenRouter and RAG (Retrieval-Augmented Generation).
+ */
 import type { Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
 import { prisma } from "../../lib/prisma";
@@ -46,22 +54,35 @@ async function searchController(req: Request, res: Response) {
 
     const vectorString = await generateEmbedding(q as string);
 
-    const results = await prisma.$queryRaw`
-            SELECT 
-                id, 
-                title, 
-                content, 
-                1 - (embedding <=> ${vectorString}::vector) AS similarity
+    const results = await prisma.$queryRaw<any[]>`
+            SELECT id, title, content, 
+            1 - (embedding <=> ${vectorString}::vector) AS similarity
             FROM "note"
             WHERE "userId" = ${req.user!.id}
             ORDER BY similarity DESC
             LIMIT 2
         `;
 
-    return sendSuccess(res, results, "Smart search results", 200);
+    res.writeHead(200, {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Transfer-Encoding": "chunked",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    });
+
+    res.write(`NOTES: ${JSON.stringify(results)}\n\n`);
+
+    const context = results
+      .map((note: any) => `Title: ${note.title}\nContent: ${note.content}`)
+      .join("\n\n---\n\n");
+
+    await RagImplementation(context, q as string, res);
+
+    res.end();
   } catch (error) {
     console.error("Vector Search Error:", error);
-    return sendError(res, "Search failed", 500);
+    if (!res.headersSent) return sendError(res, "Search failed", 500);
+    res.end();
   }
 }
 
