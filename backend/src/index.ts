@@ -43,7 +43,7 @@ app.get("/api/protected", requireAuth, (req: Request, res: Response) => {
     "This is a protected route",
   );
 });
-app.use("/api", contentRouter);
+app.use("/api", requireAuth, contentRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
