@@ -57,15 +57,15 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
   return (
     <>
       <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
-        <SheetContent className="flex w-[380px] flex-col gap-0 border-border/30 bg-card/95 p-0 backdrop-blur-md sm:max-w-[380px]">
-          <SheetHeader className="border-b border-border/30 px-5 py-4">
+        <SheetContent className="flex w-[380px] flex-col gap-0 border-l border-white/10 bg-[#1c1c1c]/95 p-0 backdrop-blur-xl sm:max-w-[380px] text-white">
+          <SheetHeader className="border-b border-white/10 px-5 py-4">
             <div className="flex items-center justify-between">
-              <SheetTitle className="text-base">Notes</SheetTitle>
+              <SheetTitle className="text-base text-white">Notes</SheetTitle>
               <Button
                 id="new-note-btn"
                 size="sm"
                 onClick={() => setCreateOpen(true)}
-                className="h-8 gap-1.5 text-xs"
+                className="h-8 gap-1.5 text-xs bg-white text-black hover:bg-zinc-200 transition-colors"
               >
                 <Plus className="h-3.5 w-3.5" />
                 New Note
@@ -76,12 +76,12 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
           <ScrollArea className="flex-1 px-4 py-3">
             {loading ? (
               <div className="flex items-center justify-center py-12">
-                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
               </div>
             ) : notes.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <p className="text-sm text-muted-foreground">No notes yet</p>
-                <p className="mt-1 text-xs text-muted-foreground/60">
+                <p className="text-sm text-zinc-400">No notes yet</p>
+                <p className="mt-1 text-xs text-zinc-500">
                   Create your first note to start asking questions
                 </p>
               </div>

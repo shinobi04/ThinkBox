@@ -108,12 +108,18 @@ export default function ChatPage() {
   if (!session) return null;
 
   return (
-    <div className="flex h-screen flex-col">
-      <Navbar onToggleNotes={() => setNotesOpen(true)} />
+    <div className="flex h-screen flex-col bg-[#111111] text-white selection:bg-white/10 relative overflow-hidden font-sans">
+      {/* Subtle background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-3xl pointer-events-none mix-blend-screen" />
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.015] pointer-events-none mix-blend-overlay" />
 
-      <ChatArea messages={messages} />
+      <div className="relative z-10 flex h-full flex-col">
+        <Navbar onToggleNotes={() => setNotesOpen(true)} />
 
-      <ChatInput onSend={handleSend} disabled={isSearching} />
+        <ChatArea messages={messages} />
+
+        <ChatInput onSend={handleSend} disabled={isSearching} />
+      </div>
 
       <NotesDrawer open={notesOpen} onClose={() => setNotesOpen(false)} />
     </div>

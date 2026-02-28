@@ -51,7 +51,7 @@ export function CreateNoteModal({
     editorProps: {
       attributes: {
         class:
-          "tiptap min-h-[200px] max-h-[400px] overflow-y-auto rounded-lg border border-border/50 bg-background/50 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
+          "tiptap min-h-[200px] max-h-[400px] overflow-y-auto rounded-xl border border-white/10 bg-black/20 p-4 text-sm text-white focus:border-white/20 focus:ring-1 focus:ring-white/20 outline-none placeholder:text-zinc-500 shadow-inner",
       },
     },
   });
@@ -86,22 +86,22 @@ export function CreateNoteModal({
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="max-w-lg border-border/30 bg-card/95 backdrop-blur-md sm:max-w-xl">
+      <DialogContent className="max-w-lg border border-white/10 bg-[#1c1c1c]/95 backdrop-blur-3xl sm:max-w-xl text-white shadow-[0_30px_60px_rgba(0,0,0,0.6)] rounded-[24px]">
         <DialogHeader>
-          <DialogTitle>New Note</DialogTitle>
+          <DialogTitle className="text-white">New Note</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <Input
             id="note-title"
             placeholder="Note title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="bg-background/50 text-base font-medium"
+            className="bg-black/20 text-base font-medium text-white border-white/10 focus-visible:border-white/20 focus-visible:ring-1 focus-visible:ring-white/20 placeholder:text-zinc-500 shadow-inner rounded-xl"
           />
 
           {/* Toolbar */}
-          <div className="flex flex-wrap gap-0.5 rounded-lg border border-border/30 bg-background/30 p-1">
+          <div className="flex flex-wrap gap-0.5 rounded-xl border border-white/5 bg-black/40 p-1">
             <ToolbarButton
               icon={<Bold className="h-3.5 w-3.5" />}
               onClick={() => editor?.chain().focus().toggleBold().run()}
@@ -144,13 +144,23 @@ export function CreateNoteModal({
           {/* Editor */}
           <EditorContent editor={editor} />
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm font-medium text-red-400">{error}</p>}
 
-          <div className="flex justify-end gap-2 pt-1">
-            <Button variant="ghost" size="sm" onClick={onClose}>
+          <div className="flex justify-end gap-2 pt-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClose}
+              className="text-zinc-400 hover:text-white hover:bg-white/5 rounded-full px-4"
+            >
               Cancel
             </Button>
-            <Button size="sm" onClick={handleSave} disabled={saving}>
+            <Button
+              size="sm"
+              onClick={handleSave}
+              disabled={saving}
+              className="bg-white text-black hover:bg-zinc-200 rounded-full px-5 hover:scale-105 active:scale-95 transition-all"
+            >
               {saving ? (
                 <>
                   <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
@@ -180,8 +190,8 @@ function ToolbarButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-md p-1.5 transition-colors hover:bg-accent ${
-        active ? "bg-accent text-foreground" : "text-muted-foreground"
+      className={`rounded-lg p-1.5 transition-colors hover:bg-white/10 hover:text-white ${
+        active ? "bg-white/10 text-white" : "text-zinc-400"
       }`}
     >
       {icon}

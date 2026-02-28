@@ -86,4 +86,23 @@ async function searchController(req: Request, res: Response) {
   }
 }
 
-export { createController, getController, searchController };
+async function deleteController(req: Request, res: Response) {
+  const id = req.params.id;
+  try {
+    const deletedCount = await prisma.$executeRaw`
+      DELETE FROM "note" 
+      WHERE id = ${id} AND "userId" = ${req.user!.id}
+    `;
+
+    if (deletedCount === 0) {
+      return sendError(res, "Note not found or unauthorized", 404);
+    }
+
+    return sendSuccess(res, null, "Note Deleted", 200);
+  } catch (error) {
+    console.error("Unable to Delete:", error);
+    return new AppError("error", 501);
+  }
+}
+
+export { createController, getController, searchController, deleteController };
