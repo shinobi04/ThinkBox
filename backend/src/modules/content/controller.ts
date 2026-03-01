@@ -105,4 +105,23 @@ async function deleteController(req: Request, res: Response) {
   }
 }
 
-export { createController, getController, searchController, deleteController };
+async function SearchfromId(req: Request, res: Response) {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const note =
+      await prisma.$queryRaw`SELECT title , content FROM "note" WHERE "userId" = ${req.user!.id} AND "id" = ${id}`;
+    return sendSuccess(res, note, "Successfully Fetched", 200);
+  } catch (error) {
+    console.error("Unable to show", error);
+    return new AppError("error", 501);
+  }
+}
+
+export {
+  createController,
+  getController,
+  searchController,
+  deleteController,
+  SearchfromId,
+};

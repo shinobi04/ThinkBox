@@ -5,6 +5,7 @@ import {
   deleteController,
   getController,
   searchController,
+  SearchfromId,
 } from "./controller";
 
 const contentRouter = Router();
@@ -12,6 +13,7 @@ const contentRouter = Router();
 contentRouter.post("/content", createController);
 contentRouter.get("/content", getController);
 contentRouter.get("/search", searchController);
+contentRouter.get("/content/:id", SearchfromId);
 contentRouter.delete("/delete/:id", deleteController);
 
 export default contentRouter;

@@ -55,7 +55,7 @@ export function ChatArea({ messages }: ChatAreaProps) {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto min-h-0">
+    <div className="flex-1 overflow-y-auto min-h-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       <div className="mx-auto max-w-2xl space-y-1 px-4 pt-6 pb-48">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
