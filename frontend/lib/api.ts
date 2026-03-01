@@ -19,6 +19,14 @@ export async function fetchNotes() {
   return data.data;
 }
 
+export async function getNote(id: string) {
+  const res = await apiFetch(`/content/${id}`);
+  if (!res.ok) throw new Error("Failed to fetch note");
+  const data = await res.json();
+  // Assume the API returns { data: [{ title: string, content: string }] } based on the array indexing in Prisma
+  return data.data[0];
+}
+
 export async function createNote(title: string, content: string) {
   const res = await apiFetch("/content", {
     method: "POST",

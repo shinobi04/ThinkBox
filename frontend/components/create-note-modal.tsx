@@ -62,8 +62,8 @@ export function CreateNoteModal({
       return;
     }
 
-    const content = editor?.getText() || "";
-    if (!content.trim()) {
+    const content = editor?.getHTML() || "";
+    if (!editor?.getText().trim()) {
       setError("Content is required");
       return;
     }

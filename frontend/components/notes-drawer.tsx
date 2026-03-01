@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NoteCard } from "./note-card";
 import { CreateNoteModal } from "./create-note-modal";
+import { NoteViewModal } from "./note-view-modal";
 import { fetchNotes, deleteNote } from "@/lib/api";
 import { Plus, Loader2 } from "lucide-react";
 
@@ -31,6 +32,7 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
   const [loading, setLoading] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
 
   const loadNotes = async () => {
     setLoading(true);
@@ -106,6 +108,7 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
                     key={note.id}
                     title={note.title}
                     content={note.content}
+                    onClick={() => setSelectedNoteId(note.id)}
                     onDelete={() => handleDeleteNote(note.id)}
                     isDeleting={deletingId === note.id}
                   />
@@ -120,6 +123,11 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
         open={createOpen}
         onClose={() => setCreateOpen(false)}
         onCreated={handleNoteCreated}
+      />
+
+      <NoteViewModal
+        noteId={selectedNoteId}
+        onClose={() => setSelectedNoteId(null)}
       />
     </>
   );

@@ -7,6 +7,7 @@ import { StickyNote, Trash2, X, Check, Loader2 } from "lucide-react";
 interface NoteCardProps {
   title: string;
   content: string;
+  onClick?: () => void;
   onDelete?: () => void;
   isDeleting?: boolean;
 }
@@ -14,6 +15,7 @@ interface NoteCardProps {
 export function NoteCard({
   title,
   content,
+  onClick,
   onDelete,
   isDeleting,
 }: NoteCardProps) {
@@ -25,7 +27,10 @@ export function NoteCard({
     plainText.length > 120 ? plainText.slice(0, 120) + "..." : plainText;
 
   return (
-    <Card className="border-white/5 bg-black/20 transition-all hover:border-white/20 hover:bg-black/40 cursor-pointer shadow-inner relative overflow-hidden group">
+    <Card
+      onClick={onClick}
+      className="border-white/5 bg-black/20 transition-all hover:border-white/20 hover:bg-black/40 cursor-pointer shadow-inner relative overflow-hidden group"
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       <CardHeader className="pb-2 relative z-10 flex flex-row items-start justify-between space-y-0">
         <CardTitle className="flex items-center gap-2 text-sm font-medium text-white">
