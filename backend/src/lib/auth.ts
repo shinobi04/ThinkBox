@@ -22,4 +22,7 @@ export const auth = betterAuth({
     "http://thinkbox-production-c575.up.railway.app",
     process.env.FRONTEND_URL || "http://localhost:3000",
   ],
+  advanced: {
+    useSecureCookies: false, // Set to true only if using HTTPS
+  },
 });
