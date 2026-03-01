@@ -28,6 +28,14 @@ export async function createNote(title: string, content: string) {
   return res.json();
 }
 
+export async function deleteNote(id: string) {
+  const res = await apiFetch(`/delete/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to delete note");
+  return res.json();
+}
+
 export async function searchNotes(
   query: string,
   onChunk: (text: string) => void,

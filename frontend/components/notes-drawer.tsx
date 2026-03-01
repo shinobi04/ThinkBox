@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NoteCard } from "./note-card";
 import { CreateNoteModal } from "./create-note-modal";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes, deleteNote } from "@/lib/api";
 import { Plus, Loader2 } from "lucide-react";
 
 interface Note {
@@ -30,6 +30,7 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const loadNotes = async () => {
     setLoading(true);
@@ -54,6 +55,19 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
     loadNotes();
   };
 
+  const handleDeleteNote = async (id: string) => {
+    setDeletingId(id);
+    try {
+      await deleteNote(id);
+      setNotes((prev) => prev.filter((n) => n.id !== id));
+    } catch (err) {
+      console.error("Failed to delete note:", err);
+      alert("Failed to delete note.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <>
       <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
@@ -73,7 +87,7 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
             </div>
           </SheetHeader>
 
-          <ScrollArea className="flex-1 px-4 py-3">
+          <div className="flex-1 overflow-y-auto px-4 py-3">
             {loading ? (
               <div className="flex items-center justify-center py-12">
                 <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
@@ -86,17 +100,19 @@ export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
                 </p>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-3 pb-8">
                 {notes.map((note) => (
                   <NoteCard
                     key={note.id}
                     title={note.title}
                     content={note.content}
+                    onDelete={() => handleDeleteNote(note.id)}
+                    isDeleting={deletingId === note.id}
                   />
                 ))}
               </div>
             )}
-          </ScrollArea>
+          </div>
         </SheetContent>
       </Sheet>
 
