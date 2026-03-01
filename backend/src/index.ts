@@ -25,10 +25,9 @@ import { errorHandler, notFoundHandler } from "./middleware/error";
 import { sendSuccess } from "./utils/response";
 import contentRouter from "./modules/content/routes";
 
+app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use(express.json());
 app.use(requestLogger);
-
-app.all("/api/auth/{*any}", toNodeHandler(auth));
 
 app.get("/", (req: Request, res: Response) => {
   sendSuccess(res, null, "Hello from Bun + Express + TS!");
