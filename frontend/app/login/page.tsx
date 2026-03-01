@@ -37,7 +37,7 @@ export default function LoginPage() {
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "http://localhost:3001/chat",
+        callbackURL: "http://localhost:3000/chat",
       });
     } catch (error) {
       console.error(error);
