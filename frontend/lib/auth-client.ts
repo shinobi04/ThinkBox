@@ -1,7 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  baseURL: "http://thinkbox-production.up.railway.app:3000",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 export const { signIn, signUp, signOut, useSession } = authClient;
