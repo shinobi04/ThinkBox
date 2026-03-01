@@ -31,7 +31,7 @@ import {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#111111] text-white selection:bg-white/10 overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#111111] text-white selection:bg-white/10 overflow-x-hidden font-sans">
       {/* Subtle background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/[0.02] rounded-full blur-3xl pointer-events-none" />
 
