@@ -3,13 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL + "/api/auth",
-  logger: {
-    level: "debug",
-    handler: (log: any) => {
-      console.log("[Better Auth Debug]:", log);
-    },
-  },
+  baseURL: process.env.BETTER_AUTH_URL,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),

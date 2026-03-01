@@ -25,14 +25,7 @@ import { errorHandler, notFoundHandler } from "./middleware/error";
 import { sendSuccess } from "./utils/response";
 import contentRouter from "./modules/content/routes";
 
-app.all(
-  "/api/auth/{*any}",
-  (req, res, next) => {
-    console.log("Auth Route Hit:", req.method, req.url);
-    next();
-  },
-  toNodeHandler(auth),
-);
+app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use(express.json());
 app.use(requestLogger);
 
