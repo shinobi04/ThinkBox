@@ -30,15 +30,19 @@ interface NotesDrawerProps {
 export function NotesDrawer({ open, onClose }: NotesDrawerProps) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
 
   const loadNotes = async () => {
-    setLoading(true);
+    if (!hasLoaded) {
+      setLoading(true);
+    }
     try {
       const data = await fetchNotes();
       setNotes(data || []);
+      setHasLoaded(true);
     } catch (err) {
       console.error("Failed to load notes:", err);
     } finally {
