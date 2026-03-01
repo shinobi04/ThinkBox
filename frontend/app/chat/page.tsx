@@ -116,9 +116,11 @@ export default function ChatPage() {
       <div className="relative z-10 flex h-full flex-col">
         <Navbar onToggleNotes={() => setNotesOpen(true)} />
 
-        <ChatArea messages={messages} />
+        <div className="relative flex-1 min-h-0 flex flex-col">
+          <ChatArea messages={messages} />
 
-        <ChatInput onSend={handleSend} disabled={isSearching} />
+          <ChatInput onSend={handleSend} disabled={isSearching} />
+        </div>
       </div>
 
       <NotesDrawer open={notesOpen} onClose={() => setNotesOpen(false)} />
